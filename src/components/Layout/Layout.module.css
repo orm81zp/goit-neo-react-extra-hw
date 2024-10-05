@@ -1,12 +1,11 @@
-.contactList {
+.layout {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 16px;
-  align-items: stretch; 
 }
 
 @media only screen and (min-width: 768px) {
-  .wrapper {
+  .layout {
     gap: 32px;
   }
 }

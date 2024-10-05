@@ -2,18 +2,15 @@ import * as yup from "yup";
 import { text } from "../../../utils/validation";
 
 export const validationSchema = yup.object().shape({
-  name: yup
+  password: yup
     .string()
-    .min(3, text.min(3))
-    .max(50, text.max(50))
+    .min(8, text.min(8))
+    .max(18, text.max(18))
     .required(text.required()),
-  number: yup
+  email: yup
     .string()
     .min(3, text.min(3))
-    .matches(
-      /^\d{3}-\d{3}-\d{1,4}$/g,
-      "Maximum 10 digits, match format: 111-222-3333"
-    )
     .max(50, text.max(50))
+    .email("Should be correct email")
     .required(text.required()),
 });

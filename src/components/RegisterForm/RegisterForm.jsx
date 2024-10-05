@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../const";
-import { addContact } from "../../redux/contacts/operations";
+import { register } from "../../redux/auth/operations";
 import {
   errorNotification,
   successNotification,
@@ -11,23 +11,21 @@ import Button from "../Button/Button";
 import FieldInput from "../FieldInput/FieldInput";
 import { initialValues } from "./const";
 import { validationSchema } from "./const/validation";
-import css from "./ContactForm.module.css";
+import css from "./RegisterForm.module.css";
 
-const ContactForm = () => {
+const RegisterForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addContact(values))
+  const handleSubmit = (contact, actions) => {
+    dispatch(register(contact))
       .unwrap()
       .then(() => {
         actions.resetForm();
-        successNotification("Contact added");
+        navigate(ROUTERS.LOGIN);
+        successNotification("Success registration");
       })
       .catch((error) => {
-        if (error === "You are not authorized") {
-          return navigate(ROUTERS.LOGIN);
-        }
         errorNotification(error);
       });
   };
@@ -42,9 +40,10 @@ const ContactForm = () => {
       >
         <Form className={css.form}>
           <FieldInput name="name" label="Name" />
-          <FieldInput name="number" label="Number" placeholder="111-222-3333" />
+          <FieldInput name="email" label="Email" />
+          <FieldInput type="password" name="password" label="Password" />
           <div className={css.actions}>
-            <Button type="submit">Add contact</Button>
+            <Button type="submit">Register</Button>
           </div>
         </Form>
       </Formik>
@@ -52,4 +51,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default RegisterForm;
