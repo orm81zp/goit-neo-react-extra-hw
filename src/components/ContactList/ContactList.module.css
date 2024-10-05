@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch; 
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+    gap: 32px;
+  }
+}
