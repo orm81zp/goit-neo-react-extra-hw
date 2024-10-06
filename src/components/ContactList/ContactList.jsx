@@ -9,6 +9,7 @@ const ContactList = ({ handleOnUpdate, handleOnDelete }) => {
   return (
     <>
       <div className={css.contactList}>
+        {filteredContacts.length === 0 && <p>No contacts found</p>}
         {filteredContacts.map((contact) => (
           <Contact
             key={contact.id}
