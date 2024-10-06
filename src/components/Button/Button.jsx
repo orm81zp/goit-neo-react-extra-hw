@@ -1,9 +1,14 @@
-import classNames from "clsx";
+import { Button as ComponentButton } from "@mui/material";
+import { SIZES, TYPES, VARIANTS } from "./const";
 
-import css from "./Button.module.css";
-import { TYPES, VARIENTS } from "./const";
-
-const Button = ({ onClick, children, varient, type = TYPES.BUTTON }) => {
+const Button = ({
+  onClick,
+  children,
+  variant,
+  size,
+  startIcon,
+  type = TYPES.BUTTON,
+}) => {
   const clickHandler = (event) => {
     if (onClick) {
       event.preventDefault();
@@ -12,19 +17,20 @@ const Button = ({ onClick, children, varient, type = TYPES.BUTTON }) => {
   };
 
   return (
-    <button
-      className={classNames(css.button, {
-        [css[varient]]: !!varient,
-      })}
+    <ComponentButton
+      size={size}
       type={type}
       onClick={clickHandler}
+      variant={variant}
+      startIcon={startIcon}
     >
       {children}
-    </button>
+    </ComponentButton>
   );
 };
 
-Button.varients = Object.assign({}, VARIENTS);
+Button.variants = Object.assign({}, VARIANTS);
 Button.types = Object.assign({}, TYPES);
+Button.sizes = Object.assign({}, SIZES);
 
 export default Button;

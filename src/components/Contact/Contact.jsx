@@ -1,37 +1,19 @@
 import clsx from "clsx";
-import { FaPhoneAlt, FaUser } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ROUTERS } from "../../const";
-import { deleteContact } from "../../redux/contacts/operations";
-import { isApproved } from "../../utils/confirm";
-import {
-  errorNotification,
-  successNotification,
-} from "../../utils/notification";
+import { FaPhoneAlt, FaTrash, FaUser, FaUserEdit } from "react-icons/fa";
 import Button from "../Button/Button";
+import ButtonGroup from "../ButtonGroup/ButtonGroup";
 import css from "./Contact.module.css";
 
-const Contact = ({ contact }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { id, name, number } = contact;
+const Contact = ({ contact, onUpdate, onDelete }) => {
+  const handleUpdateClick = () => {
+    onUpdate(contact);
+  };
 
   const handleDeleteClick = () => {
-    if (isApproved()) {
-      dispatch(deleteContact(id))
-        .unwrap()
-        .then(() => {
-          successNotification("Contact deleted");
-        })
-        .catch((error) => {
-          if (error === "You are not authorized") {
-            return navigate(ROUTERS.LOGIN);
-          }
-          errorNotification(error);
-        });
-    }
+    onDelete(contact);
   };
+
+  const { name, number } = contact;
 
   return (
     <div className={css.contact}>
@@ -46,7 +28,18 @@ const Contact = ({ contact }) => {
         </div>
       </div>
       <div className={css.actions}>
-        <Button onClick={handleDeleteClick}>Delete</Button>
+        <ButtonGroup
+          variant={ButtonGroup.variants.OUTLINED}
+          size={ButtonGroup.sizes.SMALL}
+          orientation={ButtonGroup.orientations.VERTICAL}
+        >
+          <Button onClick={handleUpdateClick} startIcon={<FaUserEdit />}>
+            Update
+          </Button>
+          <Button onClick={handleDeleteClick} startIcon={<FaTrash />}>
+            Delete
+          </Button>
+        </ButtonGroup>
       </div>
     </div>
   );

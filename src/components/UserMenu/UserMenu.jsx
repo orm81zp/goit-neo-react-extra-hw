@@ -8,10 +8,20 @@ const UserMenu = () => {
   const dispatch = useDispatch();
   const { name } = useSelector(selectUser);
 
+  const handleClick = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className={css.wrapper}>
-      <p className={css.username}>Welcome, {name}</p>
-      <Button onClick={() => dispatch(logout())}>Logout</Button>
+      <p className={css.username}>Welcome back, {name}</p>
+      <Button
+        onClick={handleClick}
+        variant={Button.variants.OUTLINED}
+        size={Button.sizes.SMALL}
+      >
+        Logout
+      </Button>
     </div>
   );
 };

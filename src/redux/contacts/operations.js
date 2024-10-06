@@ -9,8 +9,9 @@ import {
 const isDuplicate = (contacts, newContact) =>
   contacts.find(
     (contact) =>
-      contact.name.toLowerCase() === newContact.name.toLowerCase() ||
-      contact.number === newContact.number
+      (contact.name.toLowerCase() === newContact.name.toLowerCase() ||
+        contact.number === newContact.number) &&
+      contact.id !== newContact.id
   );
 
 export const fetchContacts = createAsyncThunk(
@@ -33,7 +34,9 @@ export const addContact = createAsyncThunk(
       } = getState();
 
       if (isDuplicate(items, newContact)) {
-        return rejectWithValue("Contact already exists, check name or number");
+        return rejectWithValue(
+          "A contact already exists with the same name or number"
+        );
       }
 
       return await contactsAdd(newContact);
@@ -66,16 +69,25 @@ export const deleteContact = createAsyncThunk(
 
 export const updateContact = createAsyncThunk(
   "contacts/updateContact",
-  async ({ id, ...updatedContact }, thunkAPI) => {
+  async ({ id, ...updatedContact }, { rejectWithValue, getState }) => {
     try {
+      const {
+        contacts: { items },
+      } = getState();
+
+      if (isDuplicate(items, { id, ...updatedContact })) {
+        return rejectWithValue(
+          "A contact already exists with the same name or number"
+        );
+      }
       return await contactsUpdate(id, updatedContact);
     } catch (error) {
       if (error.status === 400) {
-        return thunkAPI.rejectWithValue("Contact update failed");
+        return rejectWithValue("Contact update failed");
       } else if (error.status === 401) {
-        return thunkAPI.rejectWithValue("You are not authorized");
+        return rejectWithValue("You are not authorized");
       }
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.message);
     }
   }
 );

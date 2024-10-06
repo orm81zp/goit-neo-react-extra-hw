@@ -5,8 +5,8 @@ const HomePage = () => {
     <Container>
       <h1>Contacts Book</h1>
       <p>
-        Only authorized users have access to <strong>Contacts Book</strong>.
-        Pass Registration or Login to use the application with all its features.
+        Only <strong>authorized users</strong> have access to the Contacts Book.
+        Register or log in to use the app with all its features.
       </p>
     </Container>
   );

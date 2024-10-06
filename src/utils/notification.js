@@ -1,14 +1,14 @@
 import { toast } from "react-hot-toast";
 
-const options = {
-  position: "top-right",
-  duration: 10000,
+const defaultOptions = {
+  position: "bottom-right",
+  duration: 3000,
 };
 
-export const successNotification = (message) => {
-  toast.success(message, options);
+export const successNotification = (message, options = {}) => {
+  toast.success(message, { ...defaultOptions, ...options });
 };
 
-export const errorNotification = (message) => {
-  toast.error(message, options);
+export const errorNotification = (message, options = {}) => {
+  toast.error(message, { ...defaultOptions, ...options });
 };

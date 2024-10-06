@@ -8,6 +8,12 @@ export const register = createAsyncThunk(
       return await usersSignup(user);
     } catch (error) {
       if (error.status === 400) {
+        if (error.response?.data?.keyPattern) {
+          const { email } = error.response.data.keyPattern;
+          if (email) {
+            return rejectWithValue("The email is already taken");
+          }
+        }
         return rejectWithValue("User creation error");
       }
       return rejectWithValue("Server error");
@@ -22,7 +28,7 @@ export const login = createAsyncThunk(
       return await usersLogin(user);
     } catch (error) {
       if (error.status === 400) {
-        return rejectWithValue("Login error, check name and password");
+        return rejectWithValue("Login error, please check your credentials");
       }
       return rejectWithValue(error.message);
     }

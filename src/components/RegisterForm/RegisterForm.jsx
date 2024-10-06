@@ -43,7 +43,9 @@ const RegisterForm = () => {
           <FieldInput name="email" label="Email" />
           <FieldInput type="password" name="password" label="Password" />
           <div className={css.actions}>
-            <Button type="submit">Register</Button>
+            <Button type="submit" variant={Button.variants.CONTAINED}>
+              Register
+            </Button>
           </div>
         </Form>
       </Formik>

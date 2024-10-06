@@ -4,3 +4,5 @@ export const ROUTERS = {
   LOGIN: "/login",
   REGISTER: "/register",
 };
+
+export const ROOT_CONTAINER = '#root';

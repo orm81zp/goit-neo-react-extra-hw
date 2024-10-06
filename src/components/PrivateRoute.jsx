@@ -1,12 +1,21 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ROUTERS } from "../const";
 import { selectIsLoggedIn } from "../redux/auth/selectors";
 
-const PrivateRoute = ({ children, redirectTo = "/login" }) => {
+const PrivateRoute = ({ children, redirectTo = ROUTERS.LOGIN }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  return isLoggedIn ? children : <Navigate to={redirectTo} state={location} />;
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(redirectTo, { state: location });
+    }
+  }, [redirectTo, isLoggedIn, location, navigate]);
+
+  return children;
 };
 
 export default PrivateRoute;

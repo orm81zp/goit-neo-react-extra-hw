@@ -41,7 +41,7 @@ const LoginForm = () => {
           <FieldInput name="email" label="Email" />
           <FieldInput type="password" name="password" label="Password" />
           <div className={css.actions}>
-            <Button type="submit">Login</Button>
+            <Button type="submit" variant={Button.variants.CONTAINED}>Login</Button>
           </div>
         </Form>
       </Formik>

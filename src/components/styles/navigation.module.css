@@ -13,6 +13,6 @@
   color: var(--color-primary);
 }
 
-.link:hover {
+.link:hover, .link:focus {
   text-decoration: underline;
 }

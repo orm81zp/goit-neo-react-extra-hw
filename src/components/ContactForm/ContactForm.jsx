@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../const";
-import { addContact } from "../../redux/contacts/operations";
+import { addContact, updateContact } from "../../redux/contacts/operations";
 import {
   errorNotification,
   successNotification,
@@ -13,16 +13,25 @@ import { initialValues } from "./const";
 import { validationSchema } from "./const/validation";
 import css from "./ContactForm.module.css";
 
-const ContactForm = () => {
+const ContactForm = ({ contact, onUpdateClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isUpdate = !!contact;
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values))
+    dispatch(
+      isUpdate
+        ? updateContact({ id: contact.id, ...values })
+        : addContact(values)
+    )
       .unwrap()
       .then(() => {
         actions.resetForm();
-        successNotification("Contact added");
+        successNotification(isUpdate ? "Contact updated" : "New contact added");
+
+        if (isUpdate) {
+          onUpdateClose();
+        }
       })
       .catch((error) => {
         if (error === "You are not authorized") {
@@ -36,7 +45,7 @@ const ContactForm = () => {
     <div className={css.wrapper}>
       <Formik
         validateOnBlur={false}
-        initialValues={initialValues}
+        initialValues={isUpdate ? contact : initialValues}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
@@ -44,7 +53,9 @@ const ContactForm = () => {
           <FieldInput name="name" label="Name" />
           <FieldInput name="number" label="Number" placeholder="111-222-3333" />
           <div className={css.actions}>
-            <Button type="submit">Add contact</Button>
+            <Button type="submit" variant={Button.variants.CONTAINED}>
+              {isUpdate ? "Update" : "Add contact"}
+            </Button>
           </div>
         </Form>
       </Formik>
