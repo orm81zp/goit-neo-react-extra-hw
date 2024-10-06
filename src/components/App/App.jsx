@@ -34,27 +34,15 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/register"
-          element={
-            <RestrictedRoute>
-              <RegistrationPage />
-            </RestrictedRoute>
-          }
+          element={<RestrictedRoute component={<RegistrationPage />} />}
         />
         <Route
           path="/login"
-          element={
-            <RestrictedRoute>
-              <LoginPage />
-            </RestrictedRoute>
-          }
+          element={<RestrictedRoute component={<LoginPage />} />}
         />
         <Route
           path="/contacts"
-          element={
-            <PrivateRoute>
-              <ContactsPage />
-            </PrivateRoute>
-          }
+          element={<PrivateRoute component={<ContactsPage />} />}
         />
       </Routes>
       <Toaster />
